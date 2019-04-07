@@ -1,55 +1,55 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
-      <form (ngSubmit)="onSubmit()" #userDetail="ngForm">
+      <form (ngSubmit)="onSubmit()" [formGroup]="projectForm">
+          <div class="form-group">
+            <label for="project">Project</label>
+            <input
+              type="text"
+              id="project"
+              formControlName="project"
+              class="form-control"
+            >
+            <span class="help-block" *ngIf="!projectForm.get('project').valid && projectForm.get('project').touched">
+              <span *ngIf="projectForm.get('project').errors['required']">
+                Please fill the project name!
+              </span>
+              <span *ngIf="projectForm.get('project').errors['isNameForbidden']">
+                Please fill the correct project name!
+              </span>
+            </span>
+          </div>
         <div class="form-group">
           <label for="email">Email</label>
           <input
             type="email"
             id="email"
-            name="email"
+            formControlName="email"
             class="form-control"
-            required
-            email
-            ngModel
-            #email="ngModel">
+          >
           <span class="help-block" 
-            *ngIf="!email.valid && email.touched">
+            *ngIf="!projectForm.get('email').valid && projectForm.get('email').touched">
             Please enter valid email address!
           </span>
         </div>
         <div class="form-group">
-          <label for="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            class="form-control"
-            required
-            ngModel
-            #password="ngModel">
-          <span class="help-block" *ngIf="!password.valid && password.touched">
-            Please fill your password!
-          </span>
-        </div>
-        <div class="form-group">
-          <label for="subscription">Subscription</label>
-          <select id="subscription" name="subscription" [(ngModel)]="subscribeValue" class="form-control">
-            <option value="Basic">Basic</option>
-            <option value="Advanced">Advanced</option>
-            <option value="Pro">Pro</option>
+          <label for="status">Status</label>
+          <select status="subscription" formControlName="status" class="form-control">
+            <option value="Stable">Stable</option>
+            <option value="Critical">Critical</option>
+            <option value="Finished">Finished</option>
           </select>
         </div>
-        <span class="help-block" *ngIf="!userDetail.valid && userDetail.touched">
+        <span class="help-block" *ngIf="!projectForm.valid && projectForm.touched">
           Please fill correct entries in form!
         </span>
-        <button class="btn btn-primary" type="submit" [disabled]="!userDetail.valid">Submit</button>
+        <button class="btn btn-primary" type="submit">Submit</button>
       </form>
       <div *ngIf="formSubmitted">
         <hr>
-        <p>Email: {{ user.email }}</p>
-        <p>Password: {{ user.password }}</p>
-        <p>Subscription: {{ user.subscription }}</p>
+        <p>Name: {{ project.name }}</p>
+        <p>Email: {{ project.email }}</p>
+        <p>Status: {{ project.status }}</p>
       </div>
     </div>
   </div>
